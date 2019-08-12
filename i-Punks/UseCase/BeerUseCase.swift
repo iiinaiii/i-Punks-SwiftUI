@@ -10,7 +10,6 @@ class BeerUseCase {
     }
 
     func fetchBeerList(page: Int) {
-        debugPrint("useCase: fetchBeerList")
         repository.fetchBeerList(page: page)
     }
 

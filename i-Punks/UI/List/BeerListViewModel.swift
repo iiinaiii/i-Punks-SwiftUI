@@ -16,9 +16,7 @@ final class BeerListViewModel: ObservableObject {
         canceller = self.useCase.observeBeerList()
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
-                print("viewModel.sink() received the completion: ", String(describing: completion))
             }, receiveValue: { result in
-                    print("viewModel.sink() received value: ", result)
                     self.loadState = LoadState.complete
                     self.beerList = result
                 })
