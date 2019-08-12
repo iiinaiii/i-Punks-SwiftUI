@@ -2,6 +2,12 @@ import Foundation
 import Combine
 
 class BeerRepository {
+    static let shared = BeerRepository()
+
+    private init() {
+        dataSource = BeerApiService()
+    }
+
     let dataSource: BeerDataSource
 
     private var canceller: Cancellable? = nil
@@ -23,7 +29,7 @@ class BeerRepository {
             .sink(receiveCompletion: { completion in
                 print(".sink() received the completion: ", String(describing: completion))
             }, receiveValue: { value in
-//                    print(".sink() received value: ", value)
+                    self.cache(beerList: value)
                     self.beerListSubject.send(value)
                 })
 //            .subscribe(beerListSubject)
@@ -44,15 +50,16 @@ class BeerRepository {
 
     func fetchBeerDetail(beerId: Int) {
         if let beer = beerCache[beerId] {
+            print("cache exist : \(beerId)")
             beerDetailSubject.send(beer)
         } else {
+            print("cache NOT exist : \(beerId)")
             beerDetailSubject.send(completion: .failure(PunksError.detailError))
         }
     }
 
     func observeBeerList() -> AnyPublisher<Array<Beer>, Error> {
-        return beerListSubject
-            .eraseToAnyPublisher()
+        return beerListSubject.eraseToAnyPublisher()
     }
 
     func observeBeerDetail() -> AnyPublisher<Beer, Error> {

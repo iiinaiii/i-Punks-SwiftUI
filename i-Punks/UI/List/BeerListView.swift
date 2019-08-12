@@ -7,8 +7,10 @@ struct BeerListView: View {
     var body: some View {
         NavigationView {
             List(viewModel.beerList) { beerData in
-                BeerListRow(beer: beerData)
-            }
+                NavigationLink(destination: BeerDetailView(beerId: beerData.id)) {
+                    BeerListRow(beer: beerData)
+                }
+            }.navigationBarTitle(Text("Punks"))
         }.onAppear(perform: fetch)
             .onDisappear(perform: dispose)
     }
@@ -23,7 +25,7 @@ struct BeerListView: View {
 }
 
 private func createBeerListViewModel() -> BeerListViewModel {
-    return BeerListViewModel(useCase: BeerUseCase(repository: BeerRepository(dataSource: BeerApiService()))
+    return BeerListViewModel(useCase: BeerUseCase(repository: BeerRepository.shared)
     )
 }
 

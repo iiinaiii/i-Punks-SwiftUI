@@ -1,10 +1,11 @@
 
 import Foundation
-import RxSwift
-import RxCocoa
+import Combine
 
-final class BeerDetailViewModel {
+final class BeerDetailViewModel: ObservableObject {
     let useCase: BeerUseCase
+
+    private var canceller: Cancellable? = nil
 
     @Published var loadState: LoadState = LoadState.preload
     @Published var beerImageUrl: String? = nil
@@ -14,30 +15,36 @@ final class BeerDetailViewModel {
     @Published var ibu: String? = nil
     @Published var og: String? = nil
     @Published var description: String? = nil
-    @Published var foodPairing: [String] = []
+    @Published var foodPairings: String? = nil
     @Published var brewersTips: String? = nil
-
-    private lazy var _beerDetail = self.useCase.observeBeerDetail().handleEvents(
-        receiveOutput: { beer in
-            self.loadState = LoadState.complete
-            self.beerImageUrl = beer.imageUrl
-            self.beerName = beer.name
-            self.tagline = beer.tagline
-            self.abv = beer.abv
-            self.ibu = beer.ibu
-            self.og = beer.targetOg
-            self.description = beer.description
-            self.foodPairing = beer.foodPairing
-            self.brewersTips = beer.brewersTips
-        },
-        receiveCompletion: { _ in self.loadState = LoadState.error }
-    )
 
     init(useCase: BeerUseCase) {
         self.useCase = useCase
+        canceller = self.useCase.observeBeerDetail()
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { _ in
+                self.loadState = LoadState.error
+            }, receiveValue: { beer in
+                    self.loadState = LoadState.complete
+                    self.beerImageUrl = beer.imageUrl
+                    self.beerName = beer.name
+                    self.tagline = beer.tagline
+                    self.abv = beer.abv
+                    self.ibu = beer.ibu
+                    self.og = beer.targetOg
+                    self.description = beer.description
+                    self.foodPairings = beer.foodPairing
+                        .joined(separator: "\n")
+                    self.brewersTips = beer.brewersTips
+                })
     }
 
     func fetchBeerDetail(beerId: Int) {
         useCase.fetchBeerDetail(beerId: beerId)
+    }
+
+    func dispose() {
+        canceller?.cancel()
+        canceller = nil
     }
 }
