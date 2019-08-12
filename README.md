@@ -1,7 +1,7 @@
 # i-Punks-SwiftUI
 
-Sample repository for learning SwiftUI & Combine.
-This repository is a rewrite of the following MVVM (RxSwift) app with SwiftUI and Combine
+Sample repository for learning SwiftUI & Combine.  
+This repository is a rewrite of the following MVVM (RxSwift) app with SwiftUI and Combine.  
 https://github.com/iiinaiii/i-Punks
 
 <img src="https://user-images.githubusercontent.com/16633277/62879028-37619780-bd65-11e9-893e-800fdf45772d.png" width="240px">     <img src="https://user-images.githubusercontent.com/16633277/62879082-5102df00-bd65-11e9-8dcf-b7c3c68767d0.png" width="240px">
