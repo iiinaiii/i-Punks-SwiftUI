@@ -21,3 +21,7 @@ Xcode11 beta5
 
 ### Combine
 * Combine is used to pass the data of each layer.
+
+### SwiftUI
+* SwiftUI is used to display View contents.
+* `ScrollView` is probably unstable, not able to display multiple lines of Text and all content.
