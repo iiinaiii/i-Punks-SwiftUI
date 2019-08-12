@@ -1,8 +1,8 @@
 
 import Foundation
 
-public struct Beer {
-    let id: Int
+public struct Beer: Identifiable {
+    public let id: Int
     let name: String
     let tagline: String
     let firstBrewed: String

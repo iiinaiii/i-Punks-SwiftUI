@@ -1,5 +1,6 @@
 import Foundation
 import RxSwift
+import Combine
 
 class BeerUseCase {
     let repository: BeerRepository
@@ -9,6 +10,7 @@ class BeerUseCase {
     }
 
     func fetchBeerList(page: Int) {
+        debugPrint("useCase: fetchBeerList")
         repository.fetchBeerList(page: page)
     }
 
@@ -16,11 +18,11 @@ class BeerUseCase {
         repository.fetchBeerDetail(beerId: beerId)
     }
 
-    func observeBeerDetail() -> Observable<Result<Beer, Error>> {
+    func observeBeerDetail() -> AnyPublisher<Beer, Error> {
         repository.observeBeerDetail()
     }
 
-    func observeBeerList() -> Observable<Result<Array<Beer>, Error>> {
+    func observeBeerList() -> AnyPublisher<Array<Beer>, Error> {
         repository.observeBeerList()
     }
 }

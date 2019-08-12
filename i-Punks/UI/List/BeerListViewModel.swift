@@ -2,36 +2,37 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import SwiftUI
+import Combine
 
-final class BeerListViewModel {
+final class BeerListViewModel: ObservableObject {
     let useCase: BeerUseCase
 
-    private let _loadState = BehaviorRelay<LoadState>(value: LoadState.preload)
-    lazy var loadState = _loadState.asDriver()
+    private var canceller: Cancellable? = nil
 
-    private lazy var _beerList = self.useCase.observeBeerList().do(
-        onNext: { (_) in self._loadState.accept(LoadState.complete) },
-        onError: { (_) in self._loadState.accept(LoadState.error) }
-    )
-    lazy var beerList: Driver<Array<Beer>> = _beerList
-        .map { result in
-            switch result {
-            case .success(let beerList):
-                return beerList
-            case .failure(let error):
-                throw error
-            }
-        }.asDriver(onErrorRecover: { error in
-            self._loadState.accept(LoadState.error)
-            return Driver<Array<Beer>>.empty()
-        })
+    @Published var loadState: LoadState = LoadState.preload
+    @Published var beerList: Array<Beer> = []
 
     init(useCase: BeerUseCase) {
         self.useCase = useCase
+        canceller = self.useCase.observeBeerList()
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { completion in
+                print("viewModel.sink() received the completion: ", String(describing: completion))
+            }, receiveValue: { result in
+                    print("viewModel.sink() received value: ", result)
+                    self.loadState = LoadState.complete
+                    self.beerList = result
+                })
     }
 
     func fetchBeerList(page: Int) {
-        _loadState.accept(LoadState.loading)
+        loadState = LoadState.loading
         useCase.fetchBeerList(page: page)
+    }
+
+    func dispose() {
+        canceller?.cancel()
+        canceller = nil
     }
 }

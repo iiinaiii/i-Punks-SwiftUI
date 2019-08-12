@@ -1,51 +1,62 @@
 import Foundation
-import RxSwift
+import Combine
 
 class BeerRepository {
     let dataSource: BeerDataSource
 
-    let disposeBag = DisposeBag()
+    private var canceller: Cancellable? = nil
 
     private var beerCache: [Int: Beer] = [:]
-    private let beerListSubject = PublishSubject<Result<Array<Beer>, Error>>()
-    private let beerDetailSubject = PublishSubject<Result<Beer, Error>>()
+    private let beerListSubject = PassthroughSubject<Array<Beer>, Error>()
+    private let beerDetailSubject = PassthroughSubject<Beer, Error>()
+    private let backgroundQueue: DispatchQueue = DispatchQueue(label: "backgroundQueue")
+
+    private let numberSubject = PassthroughSubject<Int, Error>()
 
     init(dataSource: BeerDataSource) {
         self.dataSource = dataSource
     }
 
     func fetchBeerList(page: Int) {
-        dataSource.searchBeerList(page: page)
-            .subscribeOn(SerialDispatchQueueScheduler(qos: .default))
-            .subscribe(
-                onSuccess: { result in
-                    switch result {
-                    case .success(let beerList):
-                        self.cache(beerList: beerList)
-                    case .failure(_):
-                        break
-                    }
-                    self.beerListSubject.onNext(result)
-                },
-                onError: { error in
-                    self.beerListSubject.onNext(Result.failure(error))
-                }).disposed(by: disposeBag)
+        canceller = dataSource.searchBeerList(page: page)
+            .subscribe(on: backgroundQueue)
+            .sink(receiveCompletion: { completion in
+                print(".sink() received the completion: ", String(describing: completion))
+            }, receiveValue: { value in
+//                    print(".sink() received value: ", value)
+                    self.beerListSubject.send(value)
+                })
+//            .subscribe(beerListSubject)
+//            .subscribe(
+//                onSuccess: { result in
+//                    switch result {
+//                    case .success(let beerList):
+//                        self.cache(beerList: beerList)
+//                    case .failure(_):
+//                        break
+//                    }
+//                    self.beerListSubject.onNext(result)
+//                },
+//                onError: { error in
+//                    self.beerListSubject.onNext(Result.failure(error))
+//                })
     }
 
     func fetchBeerDetail(beerId: Int) {
         if let beer = beerCache[beerId] {
-            beerDetailSubject.onNext(Result.success(beer))
+            beerDetailSubject.send(beer)
         } else {
-            beerDetailSubject.onNext(Result.failure(PunksError.detailError))
+            beerDetailSubject.send(completion: .failure(PunksError.detailError))
         }
     }
 
-    func observeBeerList() -> Observable<Result<Array<Beer>, Error>> {
-        return beerListSubject.asObservable()
+    func observeBeerList() -> AnyPublisher<Array<Beer>, Error> {
+        return beerListSubject
+            .eraseToAnyPublisher()
     }
 
-    func observeBeerDetail() -> Observable<Result<Beer, Error>> {
-        return beerDetailSubject.asObservable()
+    func observeBeerDetail() -> AnyPublisher<Beer, Error> {
+        return beerDetailSubject.eraseToAnyPublisher()
     }
 
     private func cache(beerList: Array<Beer>) {

@@ -31,49 +31,49 @@ class BeerDetailViewController: UIViewController {
     }
 
     private func setupViewBinding() {
-        // image
-        viewModel?.beerImageUrl
-            .map { UIImage(url: $0) }
-            .drive(beerImageView.rx.image)
-            .disposed(by: disposeBag)
-
-        // name
-        viewModel?.beerName
-            .drive(beerNameLabel.rx.text)
-            .disposed(by: disposeBag)
-        viewModel?.beerName
-            .drive(navigationItem.rx.title)
-            .disposed(by: disposeBag)
-
-        // tagline
-        viewModel?.tagline
-            .drive(taglineLabel.rx.text)
-            .disposed(by: disposeBag)
-
-        // abv/ibu/og
-        viewModel?.abv
-            .drive(abvValue.rx.text)
-            .disposed(by: disposeBag)
-        viewModel?.ibu
-            .drive(ibuValue.rx.text)
-            .disposed(by: disposeBag)
-        viewModel?.og
-            .drive(ogValue.rx.text)
-            .disposed(by: disposeBag)
-
-        // description
-        viewModel?.description
-            .drive(beerDescriptionBody.rx.text)
-            .disposed(by: disposeBag)
-
-        // food pairing
-        viewModel?.foodPairing
-            .drive(foodPairingBody.rx.text)
-            .disposed(by: disposeBag)
-
-        // brewer's tips
-        viewModel?.brewersTips
-            .drive(brewersTips.rx.text)
-            .disposed(by: disposeBag)
+//        // image
+//        viewModel?.beerImageUrl
+//            .map { UIImage(url: $0) }
+//            .drive(beerImageView.rx.image)
+//            .disposed(by: disposeBag)
+//
+//        // name
+//        viewModel?.beerName
+//            .drive(beerNameLabel.rx.text)
+//            .disposed(by: disposeBag)
+//        viewModel?.beerName
+//            .drive(navigationItem.rx.title)
+//            .disposed(by: disposeBag)
+//
+//        // tagline
+//        viewModel?.tagline
+//            .drive(taglineLabel.rx.text)
+//            .disposed(by: disposeBag)
+//
+//        // abv/ibu/og
+//        viewModel?.abv
+//            .drive(abvValue.rx.text)
+//            .disposed(by: disposeBag)
+//        viewModel?.ibu
+//            .drive(ibuValue.rx.text)
+//            .disposed(by: disposeBag)
+//        viewModel?.og
+//            .drive(ogValue.rx.text)
+//            .disposed(by: disposeBag)
+//
+//        // description
+//        viewModel?.description
+//            .drive(beerDescriptionBody.rx.text)
+//            .disposed(by: disposeBag)
+//
+//        // food pairing
+//        viewModel?.foodPairing
+//            .drive(foodPairingBody.rx.text)
+//            .disposed(by: disposeBag)
+//
+//        // brewer's tips
+//        viewModel?.brewersTips
+//            .drive(brewersTips.rx.text)
+//            .disposed(by: disposeBag)
     }
 }
