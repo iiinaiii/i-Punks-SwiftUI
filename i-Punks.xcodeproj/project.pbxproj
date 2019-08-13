@@ -15,10 +15,6 @@
 		3A0A407422B91C3E002199DF /* i_PunksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0A407322B91C3E002199DF /* i_PunksTests.swift */; };
 		3A0A408322B952CF002199DF /* BeerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0A408222B952CF002199DF /* BeerListViewModel.swift */; };
 		3A7FC0EB22F89B0100491C81 /* BeerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7FC0EA22F89B0100491C81 /* BeerListView.swift */; };
-		3AAC575F22BF30280082C533 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAC575E22BF30280082C533 /* RxCocoa.framework */; };
-		3AAC576022BF30280082C533 /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAC575E22BF30280082C533 /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3AAC576222BF311E0082C533 /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAC576122BF311D0082C533 /* RxRelay.framework */; };
-		3AAC576322BF311E0082C533 /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAC576122BF311D0082C533 /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3AAD0C6522C25813001F3152 /* BeerDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAD0C6422C25813001F3152 /* BeerDetailViewModel.swift */; };
 		3AAD0C6722C26A4C001F3152 /* PunksError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAD0C6622C26A4C001F3152 /* PunksError.swift */; };
 		3AAD0C6922C327B5001F3152 /* LoadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAD0C6822C327B5001F3152 /* LoadState.swift */; };
@@ -30,8 +26,6 @@
 		3ADE0D9722BAA9610011DEEB /* Beer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADE0D9622BAA9610011DEEB /* Beer.swift */; };
 		3ADE0D9A22BAA97E0011DEEB /* BeerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADE0D9922BAA97E0011DEEB /* BeerResponse.swift */; };
 		3ADE0D9C22BAABBF0011DEEB /* VolumeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADE0D9B22BAABBF0011DEEB /* VolumeResponse.swift */; };
-		3ADE0DA022BB4A5B0011DEEB /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A0A408722BAA1E5002199DF /* RxSwift.framework */; };
-		3ADE0DA122BB4A5B0011DEEB /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3A0A408722BAA1E5002199DF /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3ADE0DA222BB4A6F0011DEEB /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ADE0D9D22BB451D0011DEEB /* Alamofire.framework */; };
 		3ADE0DA322BB4A6F0011DEEB /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3ADE0D9D22BB451D0011DEEB /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -53,9 +47,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3AAC576322BF311E0082C533 /* RxRelay.framework in Embed Frameworks */,
-				3ADE0DA122BB4A5B0011DEEB /* RxSwift.framework in Embed Frameworks */,
-				3AAC576022BF30280082C533 /* RxCocoa.framework in Embed Frameworks */,
 				3ADE0DA322BB4A6F0011DEEB /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -98,9 +89,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3AAC576222BF311E0082C533 /* RxRelay.framework in Frameworks */,
-				3ADE0DA022BB4A5B0011DEEB /* RxSwift.framework in Frameworks */,
-				3AAC575F22BF30280082C533 /* RxCocoa.framework in Frameworks */,
 				3ADE0DA222BB4A6F0011DEEB /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,10 +348,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RxRelay.framework",
 			);
 			outputFileListPaths = (
 			);

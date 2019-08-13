@@ -1,7 +1,6 @@
 
 import Foundation
 import Combine
-import RxSwift
 import Alamofire
 
 class BeerApiService: BeerDataSource {
